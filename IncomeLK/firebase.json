@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "IncomeLK",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
