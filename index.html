@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 
+    <link rel="stylesheet" href="css/easy-loading.css">
+
     <!-- Theme Style -->
     <link rel="stylesheet" href="css/style.css">
   </head>
@@ -24,12 +26,13 @@
 
     <header role="banner">
       
+      
 
       <div class="container logo-wrap" >
         <div class="row pt-5">
           <div class="col-12 text-center">
             <a class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button" aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
-            <h1 class="site-logo"><a href="index.html">IncomeLK</a></h1>
+            <h1 class="site-logo"><a href="index.html"  style="background-image: url('images/logo.jpg'); "><img src="images/logo.jpg" style="width:240px; height:80px"></a></h1>
           </div>
         </div>
       </div>
@@ -56,6 +59,13 @@
       </nav>
     </header>
     <!-- END header -->
+
+    <div class="cssload-thecube">
+      <div class="cssload-cube cssload-c1"></div>
+      <div class="cssload-cube cssload-c2"></div>
+      <div class="cssload-cube cssload-c4"></div>
+      <div class="cssload-cube cssload-c3"></div>
+    </div>
 
     <section class="site-section pt-5">
       <div class="container">
@@ -91,7 +101,7 @@
                   <span class="mr-2">March 15, 2018 </span> &bullet;
                   <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                 </div>
-                <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
+                <h3>මගේ නම අක්ෂුශාන්</h3>
               </div>
             </a>
           </div>
@@ -144,7 +154,43 @@
     <script src="js/jquery.waypoints.min.js"></script>
     <script src="js/jquery.stellar.min.js"></script>
 
+    <script src="js/easy-loading.js"></script>
+
+
     
     <script src="js/main.js"></script>
   </body>
+
+  <script>
+
+    $( document ).ready(function() {
+    console.log( "ready!" );
+    //show loading
+    EasyLoading.show({
+         type: TYPE.SEMI_CIRCLE_SPIN 
+      });
+
+
+      //when close the loading execute a function
+    //   EasyLoading.show({
+    //      callback: function(){
+    //       console.log("call back called")
+    //     }
+    // });
+
+    // Manually dimiss the easy Loading
+    //EasyLoading.hide();
+
+  
+  //Show the animation with time out
+  // EasyLoading.show({
+  //   timeout: 5000
+  // });
+});
+
+      
+      
+
+
+    </script>
 </html>
