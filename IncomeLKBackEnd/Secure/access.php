@@ -5,7 +5,6 @@ class access
 {
 	
 	//c	reate needed variable for this class
-	
 	var $host   = null;
 	var $user   = null;
 	var $pass   = null;
@@ -148,7 +147,7 @@ class access
             }
         }
     }
-    
+
     public function get_all_values_check()
     {
         $returnArray = array();
@@ -229,7 +228,7 @@ class access
         }
     }
 
-    //MARK:- CHECK DATE
+    //MARK:- CHECK DATES
     public function checkDates($date){
         $current_time_in_millisecond = strtotime(date("Y-m-d\TH:i:s\Z"));
         print($date);
