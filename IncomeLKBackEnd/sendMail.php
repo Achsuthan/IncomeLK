@@ -1,47 +1,39 @@
 <?php
+$email="achsuthan@icloud.com";
+$emailbody ="hello";
 
-    
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+require("vendor/autoload.php");
+require_once('vendor/phpmailer/phpmailer/PHPMailerAutoload.php');
 
-//Load Composer's autoloader
-require 'vendor/autoload.php';
+$mail = new PHPMailer();
 
-$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-try {
-    //Server settings
-    $mail->SMTPDebug = 2;                                 // Enable verbose debug output
-    $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'smtp1.google.com;smtp2.google.com';  // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = 'achsuthancopy9314@gmail.com';                 // SMTP username
-    $mail->Password = 'achsuthan4455878';                           // SMTP password
-    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;                                    // TCP port to connect to
+//$mail->SMTPDebug = 2;
+$mail->isSMTP();
+$mail->Host = "ssl://smtp.gmail.com:465";
 
-    //Recipients
-    $mail->setFrom('noreplay@income.lk', 'Mailer');
-    $mail->addAddress('achsuthan@icloud.com', 'Joe User');     // Add a recipient
-    //$mail->addAddress('ellen@example.com');               // Name is optional
-    //$mail->addReplyTo('info@example.com', 'Information');
-    //$mail->addCC('cc@example.com');
-    //$mail->addBCC('bcc@example.com');
+$mail->SMTPAuth = true;
+$mail->Password = "achsuthan4455878";
+$mail->SMTPSecure = "ssl";
+$mail->Port = 465;
+$mail->Username = "achsuthancopy9314@gmail.com";
+$mail->From = "achsuthancopy9314@gmail.com";
+$mail->FromName = $email;;
+$mail->addAddress($email, "");
+$mail->isHTML(true);
+$mail->Subject = "Activaion";
+$mail->Body=$emailbody;
 
-    //Attachments
-    $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-    $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
-    //Content
-    $mail->isHTML(true);                                  // Set email format to HTML
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+$mail->AltBody = " ";
 
-    $mail->send();
-    echo 'Message has been sent';
-} catch (Exception $e) {
-    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+
+if (!$mail->send()) {
+    //echo "Mailer Error: " . $mail->ErrorInfo;
+    $status="Fail";
+} else {
+    //echo "Message has been sent successfully";
+    $status="Success";
 }
-
+print($status);
 
 ?>
