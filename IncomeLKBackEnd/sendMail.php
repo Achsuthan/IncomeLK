@@ -1,73 +1,48 @@
 <?php
-//MARK: - Sending Mail
 
-/*$email="achsuthan@icloud.com";
-$emailbody ="hello";
+//access the Test.ini file
+$file = parse_ini_file("Test.ini"); //get the database name,username ,password values
 
-require("vendor/autoload.php");
-require_once('vendor/phpmailer/phpmailer/PHPMailerAutoload.php');
-
-$mail = new PHPMailer();
-
-//$mail->SMTPDebug = 2;
-$mail->isSMTP();
-$mail->Host = "ssl://smtp.gmail.com:465";
-
-$mail->SMTPAuth = true;
-$mail->Password = "achsuthan4455878";
-$mail->SMTPSecure = "ssl";
-$mail->Port = 465;
-$mail->Username = "achsuthancopy9314@gmail.com";
-$mail->From = "achsuthancopy9314@gmail.com";
-$mail->FromName = $email;;
-$mail->addAddress($email, "");
-$mail->isHTML(true);
-$mail->Subject = "Activaion";
-$mail->Body=$emailbody;
+//get the values form Test.ini and assign those values to the variable
+    $host = trim($file["dbhost"]);
+    $user = trim($file["dbuser"]);
+    $pass = trim($file["dbpass"]);
+    $name = trim($file["dbname"]);
 
 
-$mail->AltBody = " ";
+//require the access.php file to call the function for the future purpose
+    require("Secure/access.php");
+
+//call the class and assign the values get from the Test.ini
+    $access = new access($host, $user, $pass, $name);
+
+//call the connect function to connect with the database
+    //$access->connect();
+
+//$access->connect();
 
 
-if (!$mail->send()) {
-    //echo "Mailer Error: " . $mail->ErrorInfo;
-    $status="Fail";
-} else {
-    //echo "Message has been sent successfully";
-    $status="Success";
-}
-print($status);
-*/
 
 
-//MARK :- Getting the header form request to check the token
+
+
+
+
+
+
+//MARK: -- DO NOT TOUCH ON THIS CODE IF U TOUCH IT U WILL DIE
+
+
+
+//MARK :- IMPORTANT Getting the header form request to check the token
 /*$headers = apache_request_headers();
 $token123 = $headers['token'];
 print($token123);
 */
 
 
+//MARK: - IMPORTANT check dates
+//$access->checkDates(date("Y-m-d\TH:i:s\Z",strtotime('2018-10-04T00:45:00Z')));
 
-//MARK: - create JWT Token by usign secret key
-/*require("Secure/jwt_helper.php");
-$token = array();
-$token['phone'] = "Achsuthan";
-$token['code'] = "1212";
-$token['iat'] = 1538340754;
-$token['exp'] = 1538344355;
-echo JWT::encode($token, 'secret_server_key');
-*/
-
-
-
-
-//MARK: - Decode Token with secret Key
-/*$token = JWT::decode('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IkFjaHN1dGhhbiJ9.Cr0bK-CoSycgMYLGcatf85TbcqSU5M5gWth_QaAmcIa','secret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_keysecret_server_key',true);
-if ($token != false) {
-    print("token ".$token->id);
-}
-else {
-    print("Wrong Key");
-}*/
 
 ?>
