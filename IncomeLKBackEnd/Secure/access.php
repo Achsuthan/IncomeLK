@@ -148,6 +148,7 @@ class access
             }
         }
     }
+    
     public function get_all_values_check()
     {
         $returnArray = array();
@@ -160,6 +161,8 @@ class access
             }
         }
     }
+
+    //MARK :- SENDING MAIL
     public function send_mail($receiver, $body, $subject){
         //MARK: - Sending Mail
         require("vendor/autoload.php");
@@ -191,6 +194,7 @@ class access
         print($status);
     }
 
+    //MARK:- ENCODE JWT
     public function encodeJWT($phone_number, $code){
         //MARK: - create JWT Token by usign secret key
         require("jwt_helper.php");
@@ -213,6 +217,7 @@ class access
 
     }
 
+    //MARK:- DECODE JWT
     public function decodeJWT($header_string){
         //MARK: - Decode Token with secret Key
         $token = JWT::decode($header_string,'secret_server_key',true);
@@ -224,6 +229,7 @@ class access
         }
     }
 
+    //MARK:- CHECK DATE
     public function checkDates($date){
         $current_time_in_millisecond = strtotime(date("Y-m-d\TH:i:s\Z"));
         print($date);
