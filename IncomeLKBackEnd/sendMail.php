@@ -24,7 +24,7 @@ $file = parse_ini_file("Test.ini"); //get the database name,username ,password v
 
 
 
-
+$access->check_file("CON111111");
 
 
 
