@@ -24,7 +24,7 @@ else {
         $returnArray = [];
         $returnArray["message"] = "success";
         $returnArray["details"] = "Your content Deleted successfully";
-        return $returnArray;
+        echo json_encode($returnArray);
     }
     else {
         echo json_encode($result);

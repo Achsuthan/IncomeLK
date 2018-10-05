@@ -294,11 +294,14 @@ class access
         $contentID = $this->createContentID();
         $created_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
         $updated_date = $created_date;
-        $file_pth = "localhost:8080/IncomeLK/IncomeLKBackEnd/uploads/$contentID.jpg";
+        $file_pth = "/uploads/$contentID.jpg";
         $sql = "INSERT INTO content (content_id, image_url, english,sinhala,type,created_date, updated_date, heading)
         VALUES ('".$contentID."', '".$file_pth."', '".$english."','".$sinhala."','".$type."','".$created_date."','".$created_date."', '".$heading."')";
         if ($this->con->query($sql) === TRUE) {
-            return true;
+            $returnArray = [];
+            $returnArray["message"] = "success";
+            $returnArray["content_id"] = $contentID;
+            return $returnArray;
         } else {
             $returnArray = [];
             $returnArray["message"] = "failed";
@@ -334,7 +337,7 @@ class access
     public function updateContent($english, $sinhala, $type, $contentID,$heading){
         if ($this->checkContent($contentID)){
             $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
-            $sql = "UPDATE content SET english='".$english."', sinhala = '".$sinhala."', type = '".$type."', updated_date = '".$updated_date."' WHERE content_id='".$contentID."' heading= '".$heading."'";
+            $sql = "UPDATE content SET english='".$english."', sinhala = '".$sinhala."', type = '".$type."', updated_date = '".$updated_date."', heading= '".$heading."' WHERE content_id='".$contentID."'";
             if ($this->con->query($sql) === TRUE) {  
                 return true;
             } else {
@@ -375,15 +378,6 @@ class access
         if ($this->checkContent($contentID)){
             $delete_sql = "DELETE FROM content WHERE content_id= '".$contentID."'";
             if ($this->con->query($delete_sql) === TRUE) {
-                $target_dir = "../uploads/";
-                $target_file = $target_dir .$contentID.".jpg";
-                if (file_exists($target_file)) {
-                    //echo "Sorry, file already exists.";
-                    unlink($target_file);
-                }
-                else {
-                    //echo "file is not available";
-                }
                 return true;
             } else {
                 $returnArray = [];
@@ -460,6 +454,88 @@ class access
             $returnArray = [];
             $returnArray["message"] = "failed";
             $returnArray["details"] = "There is no content available right now try again a bit";
+            return $returnArray;
+        }
+    }
+
+    public function getAllAdmin(){
+        $sql    = "Select * from admin";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $resultArray = [];
+            while($row = $result->fetch_assoc()) {
+                $tmpArray["email"] = $row["email"];
+                array_push($resultArray, $tmpArray);
+            }
+            return $resultArray;
+            
+        }
+        else {
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "There is no content available right now try again a bit";
+            return $returnArray;
+        } 
+    }
+
+    public function deleteAdmin($email){
+        $sql    = "Select * from admin Where email = '".$email."' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                $delete_sql = "DELETE FROM admin WHERE email= '".$email."'";
+                if ($this->con->query($delete_sql) === TRUE) {
+                    return true;
+                } else {
+                    $returnArray = [];
+                    $returnArray["message"] = "failed";
+                    $returnArray["details"] = "Something went wrong please try again a bit";
+                    return $returnArray;
+                } 
+            }
+            else {
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Admin not available";
+                return $returnArray;
+            }
+        }
+        else {
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Something went wrong please try again a bit";
+            return $returnArray;
+        }
+    }
+
+    public function getContentById($contentID){
+        $sql    = "Select * from content Where content_id = '".$contentID."' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                $returnArray = [];
+                $returnArray["message"] = "success";
+                $returnArray["content"] = $row;
+                return $returnArray;
+            }
+            else {
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Admin not available";
+                return $returnArray;
+            }
+        }
+        else {
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Something went wrong please try again a bit";
             return $returnArray;
         }
     }

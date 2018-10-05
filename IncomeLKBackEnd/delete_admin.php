@@ -1,15 +1,11 @@
-<?php 
+<?php
 header('Access-Control-Allow-Origin: *'); 
-if (empty($_POST["english"]) && empty($_POST["sinhala"]) && empty($_POST["type"]) && empty($_POST["heading"])) {
+if (empty($_POST["email"])) {
     $output["message"] = "failed";
     $output["content"] = "Email field is empty";
 } 
 else {
-    $english = $_POST["english"];
-    $sinhala = $_POST["sinhala"];
-    $type = $_POST["type"];
-    $heading = $_POST["heading"];
-
+    $email = $_POST["email"];
     $file = parse_ini_file("Test.ini");
 
     $host = trim($file["dbhost"]);
@@ -22,12 +18,12 @@ else {
 
     $access->connect();
 
-    $result = $access->createContent($english,$sinhala,$type,$heading);
-    if ($result["message"]=="success"){
+    $result = $access->deleteAdmin($email);
+
+    if ($result == 1){
         $returnArray = [];
         $returnArray["message"] = "success";
-        $returnArray["content_id"] = $result["content_id"];
-        $returnArray["details"] = "Your Content created successfully";
+        $returnArray["details"] = "Admin Deleted successfully";
         echo json_encode($returnArray);
     }
     else {

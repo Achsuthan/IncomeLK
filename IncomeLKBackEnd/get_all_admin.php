@@ -12,7 +12,7 @@ $access = new access($host, $user, $pass, $name);
 
 $access->connect();
 
-$result = $access->getAllContent();
+$result = $access->getAllAdmin();
 if ($result == 1){
     
     echo json_encode($result);
@@ -20,7 +20,7 @@ if ($result == 1){
 else {
     $returnArray = [];
     $returnArray["message"] = "success";
-    $returnArray["details"] = "Content details avilable";
+    $returnArray["details"] = "Admin details avilable";
     $returnArray["content"] = $result;
     echo json_encode($returnArray);
 }
