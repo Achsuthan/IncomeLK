@@ -18,11 +18,15 @@ else {
     $access->connect();
 
     $result = $access->requestCode($email);
-    if ($result){
-        echo "success";
+    print_r($result);
+    if ($result == 1){
+        $returnArray = [];
+        $returnArray["message"] = "success";
+        $returnArray["details"] = "Check your mail for get a OTP password";
+        echo json_encode($returnArray);
     }
     else {
-        echo "fail";
+        echo json_encode($result);
     }
 }
 ?>

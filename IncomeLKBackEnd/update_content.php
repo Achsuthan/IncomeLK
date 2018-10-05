@@ -1,5 +1,5 @@
 <?php 
-if (empty($_POST["english"]) && empty($_POST["sinhala"]) && empty($_POST["type"]) && empty($_POST["content_id"])) {
+if (empty($_POST["english"]) && empty($_POST["sinhala"]) && empty($_POST["type"]) && empty($_POST["content_id"]) && empty($_POST['heading'])) {
     $output["message"] = "failed";
     $output["content"] = "Email field is empty";
 } 
@@ -8,6 +8,7 @@ else {
     $sinhala = $_POST["sinhala"];
     $type = $_POST["type"];
     $contentID = $_POST["content_id"];
+    $heading = $_POST["heading"];
 
     $file = parse_ini_file("Test.ini");
 
@@ -21,12 +22,15 @@ else {
 
     $access->connect();
 
-    $result = $access->updateContent($english,$sinhala,$type,$contentID);
-    if ($result){
-        echo "success";
+    $result = $access->updateContent($english,$sinhala,$type,$contentID, $heading);
+    if ($result == 1){
+        $returnArray = [];
+        $returnArray["message"] = "success";
+        $returnArray["details"] = "Your content details updated successfully";
+        echo json_encode($returnArray);
     }
     else {
-        echo "fail";
+        echo json_encode($result);
     }
 }
 ?>

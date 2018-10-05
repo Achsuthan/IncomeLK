@@ -135,7 +135,10 @@ class access
             if(!empty($row))  //check whether the variable row contain value or not
             {
                 echo "Row availble";
-                return false;                  //asign back to id as a USR111112
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "This user already exist, please try with different email";
+                return $returnArray;                 //asign back to id as a USR111112
             }
             else {
                 $sql = "INSERT INTO admin (email, created_date, updated_date,is_enable)
@@ -143,7 +146,10 @@ class access
                 if ($this->con->query($sql) === TRUE) {
                     return true;
                 } else {
-                    return false;
+                    $returnArray = [];
+                    $returnArray["message"] = "failed";
+                    $returnArray["details"] = "Something went wrong please try again a bit";
+                    return $returnArray;
                 }
             }
         }
@@ -153,7 +159,10 @@ class access
                 if ($this->con->query($sql) === TRUE) {
                     return true;
                 } else {
-                    return false;
+                    $returnArray = [];
+                    $returnArray["message"] = "failed";
+                    $returnArray["details"] = "Something went wrong please try again a bit";
+                    return $returnArray;
                 }
         }
     }
@@ -167,19 +176,28 @@ class access
                 if ($this->con->query($sql) === TRUE) {  
                     return true;
                 } else {
-                    return false;
+                    $returnArray = [];
+                    $returnArray["message"] = "failed";
+                    $returnArray["details"] = "Something went wrong please try agian a bit";
+                    return $returnArray;
                 }
             } else {
-                return false;
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
             } 
         }
         else {
-            return false;
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Enter correct OTP password";
+            return $returnArray;
         }
     }
 
     public function requestCode($email){
-        $sql    = "Select * from admin Where email = '".$email."' ORDER BY id DESC LIMIT 1; ";  //get the last value form the database
+        $sql    = "Select * from admin Where email = '".$email."' ";  //get the last value form the database
         $result = $this->con->query($sql);                          //get the result by executing the sql query
         if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
         {
@@ -189,11 +207,17 @@ class access
                 return $this->createOTP($email);                 //asign back to id as a USR111112
             }
             else {
-                return false;
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
             }
         }
         else {
-            return $this->createOTP($email);
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Your email address is wrong";
+            return $returnArray;
         }
     }
 
@@ -206,7 +230,10 @@ class access
                  $this->sendMail($email,$password,"OTP Password");
                  return true;
             } else {
-                return false;
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
             }
         }
         else {
@@ -216,7 +243,10 @@ class access
                 $this->sendMail($email,$password,"OTP Password");
                 return true;
             } else {
-                return false;
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
             }
             
         }
@@ -260,18 +290,20 @@ class access
         }
     }
 
-    public function createContent($english, $sinhala, $type){
+    public function createContent($english, $sinhala, $type, $heading){
         $contentID = $this->createContentID();
         $created_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
         $updated_date = $created_date;
         $file_pth = "localhost:8080/IncomeLK/IncomeLKBackEnd/uploads/$contentID.jpg";
-        $sql = "INSERT INTO content (content_id, image_url, english,sinhala,type,created_date, updated_date)
-        VALUES ('".$contentID."', '".$file_pth."', '".$english."','".$sinhala."','".$type."','".$created_date."','".$created_date."')";
+        $sql = "INSERT INTO content (content_id, image_url, english,sinhala,type,created_date, updated_date, heading)
+        VALUES ('".$contentID."', '".$file_pth."', '".$english."','".$sinhala."','".$type."','".$created_date."','".$created_date."', '".$heading."')";
         if ($this->con->query($sql) === TRUE) {
             return true;
         } else {
-            $this->con->error;
-            return false;
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Something went wrong please try again a bit";
+            return $returnArray;
         }
     }
 
@@ -299,18 +331,24 @@ class access
     }
 
 
-    public function updateContent($english, $sinhala, $type, $contentID){
+    public function updateContent($english, $sinhala, $type, $contentID,$heading){
         if ($this->checkContent($contentID)){
             $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
-            $sql = "UPDATE content SET english='".$english."', sinhala = '".$sinhala."', type = '".$type."', updated_date = '".$updated_date."' WHERE content_id='".$contentID."'";
+            $sql = "UPDATE content SET english='".$english."', sinhala = '".$sinhala."', type = '".$type."', updated_date = '".$updated_date."' WHERE content_id='".$contentID."' heading= '".$heading."'";
             if ($this->con->query($sql) === TRUE) {  
                 return true;
             } else {
-                return false;
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong try again a bit";
+                return $returnArray;
             }
         }
         else {
-            return false;
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Your content is not available";
+            return $returnArray;
         }
     }
 
@@ -348,11 +386,17 @@ class access
                 }
                 return true;
             } else {
-                return false;
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
             } 
         }
         else {
-            return false;
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Your Content is not available";
+            return $returnArray;
         }
     }
 
@@ -363,11 +407,17 @@ class access
             if ($this->con->query($sql) === TRUE) {  
                 return true;
             } else {
-                return false;
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try agin a bit";
+                return $returnArray;
             }
         }
         else {
-            return false;
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Your Content is not available";
+            return $returnArray;
         }
     }
 
@@ -384,7 +434,33 @@ class access
             
         }
         else {
-            return false;
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "There is no content available right now try again a bit";
+            return $returnArray;
+        }
+    }
+
+    public function getContent(){
+        $sql    = "Select * from content ORDER BY updated_date DESC";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $resultArray = [];
+            while($row = $result->fetch_assoc()) {
+                $tmpArray["heading"] = $row["heading"];
+                $tmpArray["image"] = $row["image_url"];
+                $tmpArray["type"] = $row["type"];
+                array_push($resultArray, $tmpArray);
+            }
+            return $resultArray;
+            
+        }
+        else {
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "There is no content available right now try again a bit";
+            return $returnArray;
         }
     }
 

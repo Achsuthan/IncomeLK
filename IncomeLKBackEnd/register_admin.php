@@ -19,11 +19,14 @@ else {
 
     $result = $access->registerAdmin($email);
 
-    if ($result){
-        echo "success";
+    if ($result == 1){
+        $returnArray = [];
+        $returnArray["message"] = "success";
+        $returnArray["details"] = "New Admin added successfully";
+        echo json_encode($returnArray);
     }
     else {
-        echo "fail";
+        echo json_encode($result);
     }
 }
 ?>

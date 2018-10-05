@@ -20,11 +20,14 @@ else {
 
     $result = $access->loginAdmin($email,$otp);
 
-    if ($result){
-        echo "success";
+    if ($result == 1){
+        $returnArray = [];
+        $returnArray["message"] = "success";
+        $returnArray["details"] = "Welcome to Income.lk";
+        echo json_encode($returnArray);
     }
     else {
-        echo "fail";
+        echo json_encode($result);
     }
 }
 ?>

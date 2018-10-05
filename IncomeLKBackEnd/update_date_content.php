@@ -19,11 +19,14 @@ else {
     $access->connect();
 
     $result = $access->updateContentDate($contentID);
-    if ($result){
-        echo "success";
+    if ($result == 1){
+        $returnArray = [];
+        $returnArray["message"] = "success";
+        $returnArray["details"] = "Your content details updated successfully";
+        echo json_encode($returnArray);
     }
     else {
-        echo "fail";
+        echo json_encode($result);
     }
 }
 ?>

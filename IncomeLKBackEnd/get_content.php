@@ -11,7 +11,7 @@ $access = new access($host, $user, $pass, $name);
 
 $access->connect();
 
-$result = $access->getAllContent();
+$result = $access->getContent();
 if ($result == 1){
     $returnArray = [];
     $returnArray["message"] = "success";

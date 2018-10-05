@@ -19,11 +19,14 @@ else {
     $access->connect();
 
     $result = $access->deleteContent($contentID);
-    if ($result){
-        echo "success";
+    if ($result == 1){
+        $returnArray = [];
+        $returnArray["message"] = "success";
+        $returnArray["details"] = "Your content Deleted successfully";
+        return $returnArray;
     }
     else {
-        echo "fail";
+        echo json_encode($result);
     }
 }
 ?>
