@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *'); 
 $file = parse_ini_file("Test.ini");
 
 $host = trim($file["dbhost"]);

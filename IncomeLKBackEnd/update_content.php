@@ -1,4 +1,5 @@
 <?php 
+header('Access-Control-Allow-Origin: *'); 
 if (empty($_POST["english"]) && empty($_POST["sinhala"]) && empty($_POST["type"]) && empty($_POST["content_id"]) && empty($_POST['heading'])) {
     $output["message"] = "failed";
     $output["content"] = "Email field is empty";

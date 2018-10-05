@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *'); 
 
 //access the Test.ini file
 $file = parse_ini_file("Test.ini"); //get the database name,username ,password values

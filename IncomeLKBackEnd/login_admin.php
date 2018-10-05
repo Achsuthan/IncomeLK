@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *'); 
 if (empty($_POST["email"]) && empty($_POST["otp"])) {
     $output["message"] = "failed";
     $output["content"] = "Email field is empty";

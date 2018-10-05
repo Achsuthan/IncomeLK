@@ -1,4 +1,6 @@
 <?php
+header('Access-Control-Allow-Origin: *'); 
+
 if (empty($_POST["email"])) {
     $output["message"] = "failed";
     $output["content"] = "Email field is empty";
@@ -18,7 +20,6 @@ else {
     $access->connect();
 
     $result = $access->requestCode($email);
-    print_r($result);
     if ($result == 1){
         $returnArray = [];
         $returnArray["message"] = "success";
