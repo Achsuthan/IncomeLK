@@ -378,6 +378,9 @@ class access
         if ($this->checkContent($contentID)){
             $delete_sql = "DELETE FROM content WHERE content_id= '".$contentID."'";
             if ($this->con->query($delete_sql) === TRUE) {
+                if (file_exists("../uploads/".$contentID."jpg")){
+                    unlink("../uploads/".$contentID."jpg");
+                }
                 return true;
             } else {
                 $returnArray = [];

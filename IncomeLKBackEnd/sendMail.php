@@ -23,9 +23,17 @@ $file = parse_ini_file("Test.ini"); //get the database name,username ,password v
 //$access->connect();
 
 
+$contentID = "CON111111";
+$fileName = "./uploads/$contentID.jpg";
+print($fileName);
 
-
-$access->check_file("CON111111");
+if (file_exists($fileName)){
+   
+    unlink($fileName);
+}
+else {
+    echo "hello";
+}
 
 
 

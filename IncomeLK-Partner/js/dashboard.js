@@ -78,6 +78,9 @@
                         }
                     }
                     else {
+                        contentTable.clear().draw();
+                        contentTable.rows.add(dataSetContent);
+                        contentTable.columns.adjust().draw();
                     }
                 }else {
                 }
@@ -122,6 +125,9 @@
                         }
                     }
                     else {
+                        contentTable.clear().draw();
+                        contentTable.rows.add(dataSetContent);
+                        contentTable.columns.adjust().draw();
                     }
                 }else {
                 }
@@ -152,6 +158,7 @@
                     $("#email-group").removeClass()
                     $("#email-group").addClass("form-group")
                     $("#email").val("")
+                    alert("Register Admin Successfully");
                     getAdmins()
                 }else {
                     console.log("Error")
@@ -178,6 +185,7 @@
                 console.log(result)
                 if (result["message"] == "success"){
                     console.log("hello")
+                    alert("Admin Deleted Successfully");
                     getAdmins()
                 }else {
                     console.log("Error")
@@ -202,6 +210,7 @@
                 console.log(result)
                 if (result["message"] == "success"){
                     console.log("hello")
+                    alert("Content Moved Successfully");
                     getContents()
                 }else {
                     console.log("Error")
@@ -256,43 +265,44 @@
     function imageUpload(){
         if (createdContentId != ""){
 
-            const files = document.querySelector('[type=file]').files;
-            const formData = new FormData();
+            const formData = new FormData(this);
+            formData.append("content_id", createdContentId)
+            console.log(formData)
+            var value = document.getElementById("image").value;
 
-            for (let i = 0; i < files.length; i++) {
-                let file = files[i];
+            if (value != "") {
+                $("#image-group").removeClass()
+                $("#image-group").addClass("form-group")
+
+                var data = new FormData();
+                data.append("content_id", createdContentId);
+                data.append("fileToUpload", document.querySelector("#image").files[0]);
             
-                formData.append('files[]', file);
-            }
+                console.log(document.querySelector("#image").files[0]);
 
-            $.ajax({
-                url: baseURL+"/content_image_upload.php", // Url to which the request is send
-                type: "POST",             // Type of request to be send, called as method
-                data: {"fileToUpload":formData,"content_id":createdContentId}, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-                contentType: false,       // The content type used when sending data to the server.
-                cache: false,             // To unable request pages to be cached
-                processData:false,        // To send DOMDocument or non processed data file it is set to false
-                success: function(response){
-                    console.log(response);
-                    var result = jQuery.parseJSON(response)
-                    console.log(result)
-                    if (result["message"] == "success"){
-                        console.log("success")
+                
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.responseText);
+                        var response = this.responseText
+                        alert("Content Added Successfully");
                         getContents()
-                    }
-                    else {
-                        console.log("fail")
-                    }
-                },
-                error: function() { 
-                },
 
-            });
+                    }
+                };
+                xmlhttp.open("POST", baseURL+"/content_image_upload.php");
+                xmlhttp.send(data);
+            }
+            else {
+                $("#image-group").css("color","red")
+            }
         }
         else {
             console.log("id not avilable");
-            
         }
+
     }
 
     function updateContent(){
@@ -328,7 +338,8 @@
     
                         editId = ""
                         create = true
-    
+
+                        alert("Content updated Successfully");
                         getContents()
                     }else {
                         console.log("Error")
@@ -381,6 +392,7 @@
                     var result = jQuery.parseJSON(response)
                     console.log(result)
                     if (result["message"] == "success"){
+                        alert("Content Deleted Successfully");
                         getContents()
                     }else {
                         console.log("Error")
@@ -439,9 +451,14 @@
 
         $("#sinhala-group").removeClass()
         $("#sinhala-group").addClass("form-group")
+
+        $("#image-group").css("color","black")
+
+        var value = document.getElementById("image").value;
+
         if (create){
             console.log("create");
-            if ($("#heading").val() != "" && $("#type").val() != "" && $("#english").val() != "" && $("#sinhala").val() != ""){
+            if ($("#heading").val() != "" && $("#type").val() != "" && $("#english").val() != "" && $("#sinhala").val() != "" && value != ""){
                 createContent()
             }
             else {
@@ -460,6 +477,9 @@
                 if ($("#sinhala").val() == ""){
                     $("#sinhala-goup").removeClass()
                     $("#sinhala-group").addClass("form-group has-error")
+                }
+                if (value == "") {
+                    $("#image-group").css("color","red")
                 }
             }
                 

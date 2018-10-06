@@ -21,6 +21,10 @@ else {
 
     $result = $access->deleteContent($contentID);
     if ($result == 1){
+        $fileName = "./uploads/$contentID.jpg";
+        if (file_exists($fileName)){
+            unlink($fileName);
+        }
         $returnArray = [];
         $returnArray["message"] = "success";
         $returnArray["details"] = "Your content Deleted successfully";

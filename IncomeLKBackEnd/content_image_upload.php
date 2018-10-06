@@ -57,6 +57,7 @@ else {
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                 $returnArray = [];
                 $returnArray["message"] = "success";
+                chmod ($target_file , 0777 );
                 $returnArray["details"] = "Your file ".basename($_FILES["fileToUpload"]["name"]." has been uploaded");
                 echo json_encode($returnArray);
             } else {
