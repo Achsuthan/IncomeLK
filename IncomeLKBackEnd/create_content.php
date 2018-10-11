@@ -5,10 +5,10 @@ if (empty($_POST["english"]) && empty($_POST["sinhala"]) && empty($_POST["type"]
     $output["content"] = "Email field is empty";
 } 
 else {
-    $english = $_POST["english"];
-    $sinhala = $_POST["sinhala"];
-    $type = $_POST["type"];
-    $heading = $_POST["heading"];
+    $english = addslashes($_POST["english"]);
+    $sinhala = addslashes($_POST["sinhala"]);
+    $type = addslashes($_POST["type"]);
+    $heading = addslashes($_POST["heading"]);
 
     $file = parse_ini_file("Test.ini");
 

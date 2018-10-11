@@ -27,64 +27,54 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  z-index: -1; 
+}
+body::after{
+  opacity: 0.5;
 }
 </style>
   </head>
-  <body >
+  <body style="height: 100vh;">
     
 
 
       
-      <div class="container logo-wrap">
-        <div style="padding-top: 15px;">
-          <div class="col-12 text-center">
-            <h1 class="site-logo"><a href="index.html"  style="background-image: url('images/logo.jpg');text-align: center;"><img src="images/logo.jpg" style="width:240px; height:80px"></a></h1>
-          </div>
-        </div>
-      </div>
-    <!-- END header -->
+     
 
 
-    <section class="site-section" style="padding: 1em 0">
+    <section class="site-section" style="padding: 1em 0; position: fixed;
+    bottom: 0;
+    width: 100%;">
       <div class="container" style="text-align: center;">
         <div class="row mb-12">
           <div class="col-md-12">
-            <h1>Subscribe</h1>
+            <h1>Make Money Now</h1>
           </div>
         </div>
         <div class="row blog-entries">
           <div class="col-md-12 ">
             
-            <form action="#" method="post">
-                  <div class="row" style="text-align:center;">
+            <form style="padding:20px;">
+                  <div class="row" >
                     <div class="col-md-4">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="text-align:center; background-color: black; opacity: 0.9; border-radius: 5px;">
                         <div class="col-md-12 form-group">
-                            <label for="name" style="color: black;">Phone Number</label>
+                            <label for="name" style="color: white; opacity: 1;">Request for PIN</label>
                             <input type="phone" id="phone" class="form-control" style="color: black;border-color: black;border-radius: 5px;" placeholder="Phone Number">
-                          </div>
-                    </div>
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-12 form-group">
-                      <label for="phone" style="color: black; font-size: 12px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum minima eveniet recusandae suscipit eum laboriosam fugit amet deleniti iste et. Ad dolores, necessitatibus non saepe tenetur impedit commodi quibusdam natus repellat, exercitationem accusantium perferendis officiis. Laboriosam impedit quia minus pariatur!</label>
-                    </div>
-                    <div class="col-md-4">
-
-                    </div>
-                    <div class="col-md-4">
-                        <div>
-                            <div class="col-md-12 form-group">
-                                <input type="button" value="Request Code" class="btn btn-danger" style="border-radius: 5px;">
-                              </div>
                         </div>
+                        <div>
+                          <div class="col-md-12 form-group">
+                              <input type="button" value="Request Code" id="request_code" class="btn btn-danger" style="border-radius: 5px;">
+                            </div>
+                      </div>
                     </div>
                     <div class="col-md-4">
-
-                    </div>
-                    
+                    </div>            
                   </div>
+                  <div class="col-md-12 form-group">
+                      <label for="phone" style="color: white; font-size: 12px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum minima eveniet recusandae suscipit eum laboriosam fugit amet deleniti iste et. Ad dolores, necessitatibus non saepe tenetur impedit commodi quibusdam natus repellat, exercitationem accusantium perferendis officiis. Laboriosam impedit quia minus pariatur!</label>
+                    </div>
 
                   
                 </form>
@@ -113,5 +103,7 @@
 
     
     <script src="js/main.js"></script>
+    <script src="js/url.js"></script>
+    <script src="js/phone.js"></script>
   </body>
 </html>

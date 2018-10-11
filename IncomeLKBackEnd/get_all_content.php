@@ -13,16 +13,11 @@ $access = new access($host, $user, $pass, $name);
 $access->connect();
 
 $result = $access->getAllContent();
-if ($result == 1){
-    
+if ($result["message"] == "failed"){
     echo json_encode($result);
 }
 else {
-    $returnArray = [];
-    $returnArray["message"] = "success";
-    $returnArray["details"] = "Content details avilable";
-    $returnArray["content"] = $result;
-    echo json_encode($returnArray);
+    echo json_encode($result);
 }
 
 ?>

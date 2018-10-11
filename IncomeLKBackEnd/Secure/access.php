@@ -423,10 +423,15 @@ class access
         $result = $this->con->query($sql);                          //get the result by executing the sql query
         if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
         {
-            $resultArray = [];
+            $resultArray["message"] = "success";
+            $returnArray["details"] = "Content details avilable";
+
+            $tResult = [];
+
             while($row = $result->fetch_assoc()) {
-                array_push($resultArray, $row);
+                array_push($tResult, $row);
             }
+            $resultArray["content"] = $tResult;
             return $resultArray;
             
         }
@@ -550,14 +555,14 @@ class access
             if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
             {
                 $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
-                while(!empty($row))  //check whether the variable row contain value or not
+                while($row = $result->fetch_assoc())  //check whether the variable row contain value or not
                 {
                     $adminEmail = $row["email"];
                     $this->sendMail("$adminEmail","The User $name with Email $email and phone Number $phone send you a message - $message","User Send Email");
-
-                    $returnArray ["message"] = "success";
-                    return $returnArray;
                 }
+
+                $returnArray ["message"] = "success";
+                return $returnArray;
             }
             else {
                 $returnArray = [];
@@ -574,7 +579,7 @@ class access
     }
 
     public function OTPVerfication($phone, $OTP){
-        
+
     }
 
 }

@@ -15,8 +15,6 @@
     <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 
-    <link rel="stylesheet" href="css/easy-loading.css">
-
     <!-- Theme Style -->
     <link rel="stylesheet" href="css/style.css">
   </head>
@@ -25,14 +23,13 @@
 
 
     <header role="banner">
-      
-      
+     
 
-      <div class="container logo-wrap" >
+      <div class="container logo-wrap">
         <div style="padding-top: 15px;">
           <div class="col-12 text-center">
             <a class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button" aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
-            <h1 class="site-logo"><a href="index.html"  style="background-image: url('images/logo.jpg');;text-align: center; "><img src="images/logo.jpg" style="width:240px; height:80px"></a></h1>
+            <h1 class="site-logo"><a href="index.html"  style="background-image: url('images/logo.jpg');text-align: center; "><img src="images/logo.jpg" style="width:240px; height:80px"></a></h1>
           </div>
         </div>
       </div>
@@ -60,46 +57,48 @@
     </header>
     <!-- END header -->
 
-    <div class="cssload-thecube">
-      <div class="cssload-cube cssload-c1"></div>
-      <div class="cssload-cube cssload-c2"></div>
-      <div class="cssload-cube cssload-c4"></div>
-      <div class="cssload-cube cssload-c3"></div>
-    </div>
-
-    <section style="padding: top -20px;">
+    <section class="site-section py-lg" style="padding: 1em 0">
       <div class="container">
-        <div class="row">
+        
+        <div class="row blog-entries">
           <div class="col-md-12">
-
-            <div class="owl-carousel owl-theme home-slider">
-              <div>
-                <a href="content.html" class="a-block d-flex align-items-center height" style="background-image: url('images/img_1.jpg'); ">
-                 
-                </a>
-              </div>
-              <div>
-                <a href="content.html" class="a-block d-flex align-items-center height" style="background-image: url('images/img_2.jpg'); ">
-                 
-                </a>
-              </div>
-              <div>
-                <a href="content.html" class="a-block d-flex align-items-center height" style="background-image: url('images/img_3.jpg'); ">
-                  
-                </a>
-              </div>
+            <h1 class="mb-4" id="heading"></h1>
+            <div class="post-meta">
+                <span class="category" id="type"></span>
             </div>
-            
+            <div class="post-content-body">
+              <p id="english"></p>
+              <div class="row mb-12">
+                <div class="col-md-12" style="text-align:center">
+                  <img src="images/img_7.jpg" style="padding-bottom: 20px" alt="Image placeholder" id="image" class="img-fluid">
+                </div>
+              </div>
+              <p id="sinhala"></p>
+           </div>
+
+            <div class="pt-5">
+              <p>Categories:  <!-- <a href="#">Food</a>, <a href="#">Travel</a>  Tags: <a href="#">#manila</a>, <a href="#">#asia</a> --> </p>
+            </div>
+
           </div>
-        </div>
-        <div class="row" id="content">
-         
         </div>
       </div>
     </section>
-    <!-- END section -->
 
-    
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="mb-3 ">Related Post</h2>
+          </div>
+        </div>
+        <div class="row" id = "content">
+        </div>
+      </div>
+
+
+    </section>
+    <!-- END section -->
   
     <footer class="site-footer" style="padding: 0em 0; text-align: center">
       Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by IncomeLK
@@ -117,45 +116,9 @@
     <script src="js/jquery.waypoints.min.js"></script>
     <script src="js/jquery.stellar.min.js"></script>
 
-    <script src="js/easy-loading.js"></script>
-
-
     
     <script src="js/main.js"></script>
     <script src="js/url.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/content.js"></script>
   </body>
-
-  <script>
-
-    // $( document ).ready(function() {
-    // console.log( "ready!" );
-    // //show loading
-    // EasyLoading.show({
-    //      type: TYPE.SEMI_CIRCLE_SPIN 
-    //   });
-
-
-      //when close the loading execute a function
-    //   EasyLoading.show({
-    //      callback: function(){
-    //       console.log("call back called")
-    //     }
-    // });
-
-    // Manually dimiss the easy Loading
-    //EasyLoading.hide();
-
-  
-  //Show the animation with time out
-  // EasyLoading.show({
-  //   timeout: 5000
-  // });
-//});
-
-      
-      
-
-
-    </script>
 </html>
