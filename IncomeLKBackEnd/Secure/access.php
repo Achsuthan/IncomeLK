@@ -543,5 +543,39 @@ class access
         }
     }
 
+    public function sendMessage($name, $phone, $email, $message){
+
+            $sql    = "Select * from admin";  //get the last value form the database
+            $result = $this->con->query($sql);                          //get the result by executing the sql query
+            if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+            {
+                $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+                while(!empty($row))  //check whether the variable row contain value or not
+                {
+                    $adminEmail = $row["email"];
+                    $this->sendMail("$adminEmail","The User $name with Email $email and phone Number $phone send you a message - $message","User Send Email");
+
+                    $returnArray ["message"] = "success";
+                    return $returnArray;
+                }
+            }
+            else {
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
+            }
+        
+
+    }
+
+    public function requestOTP($OTP){
+
+    }
+
+    public function OTPVerfication($phone, $OTP){
+        
+    }
+
 }
 ?>
