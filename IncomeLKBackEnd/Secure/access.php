@@ -46,33 +46,36 @@ class access
 
     //MARK :- SENDING MAIL
     public function sendMail($receiver, $body, $subject){
-        //MARK: - Sending Mail
-        require("vendor/autoload.php");
-        require_once('vendor/phpmailer/phpmailer/PHPMailerAutoload.php');
-        $mail = new PHPMailer();
-        //$mail->SMTPDebug = 2;
+        // require("vendor/autoload.php");
+        // require_once('vendor/phpmailer/phpmailer/PHPMailerAutoload.php');
+        // $mail = new PHPMailer();
 
-        $mail->isSMTP();
-        $mail->Host       = "ssl://smtp.gmail.com:465";
-        $mail->SMTPAuth   = true;
-        $mail->Password   = "achsuthan4455878";
-        $mail->SMTPSecure = "ssl";
-        $mail->Port       = 465;
-        $mail->Username   = "achsuthancopy9314@gmail.com";
-        $mail->From       = "noreplay@income.lk";
-        $mail->FromName   = $receiver;
-        $mail->addAddress($receiver, "");
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body    = $body;
-        $mail->AltBody = " ";
-        if (!$mail->send()) {
-            //echo "Mailer Error: " . $mail->ErrorInfo;
-            $status = true;
-        } else {
-            //echo "Message has been sent successfully";
-            $status = false;
-        }
+        // $mail->isSMTP();
+        // $mail->Host       = "ssl://smtp.gmail.com:465";
+        // $mail->SMTPAuth   = true;
+        // $mail->Password   = "achsuthan4455878";
+        // $mail->SMTPSecure = "ssl";
+        // $mail->Port       = 465;
+        // $mail->Username   = "achsuthancopy9314@gmail.com";
+        // $mail->From       = "noreplay@income.lk";
+        // $mail->FromName   = $receiver;
+        // $mail->addAddress($receiver, "");
+        // $mail->isHTML(true);
+        // $mail->Subject = $subject;
+        // $mail->Body    = $body;
+        // $mail->AltBody = " ";
+        // if (!$mail->send()) {
+        //     $status = true;
+        // } else {
+        //     $status = false;
+        // }
+
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+        $headers .= 'From: noReply@income.lk' . "\r\n";
+        $status = mail($receiver,$subject,$body,$headers);
+        
         return $status;
     }
 

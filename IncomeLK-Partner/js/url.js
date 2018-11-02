@@ -1,4 +1,4 @@
-var baseURL = "http://192.168.64.2/IncomeLK/IncomeLKBackEnd"
+var baseURL = "http://income.lk/IncomeLK/incomeLKBackEnd"
 
 function checkUser(){
     
