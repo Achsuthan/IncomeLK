@@ -34,6 +34,10 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <style>
+        img{ display: block; margin: 0; width: 100%; max-width: none; }
+    </style>
+
 </head>
 
 <body>
@@ -65,7 +69,7 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
+                                    <div class="huge" id="today">0</div>
                                     <div>Today Visit</div>
                                 </div>
                             </div>
@@ -80,7 +84,7 @@
                                     <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
+                                    <div class="huge" id="today_subscribe">0</div>
                                     <div>Today Subscribers</div>
                                 </div>
                             </div>
@@ -95,7 +99,7 @@
                                     <i class="fa fa-shopping-cart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
+                                    <div class="huge" id="subscribe">0</div>
                                     <div>Total Subscribers</div>
                                 </div>
                             </div>
@@ -110,7 +114,7 @@
                                     <i class="fa fa-support fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
+                                    <div class="huge" id="unsubscribe">0</div>
                                     <div>Total Unsubscribers!</div>
                                 </div>
                             </div>
@@ -237,7 +241,7 @@
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body" style="text-align: center;">
-                                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-content">
+                                <table width="100%" class="table table-striped table-bordered table-hover table-responsive" id="dataTables-content">
                                 </table>
                             </div>
                             <!-- /.panel-body -->

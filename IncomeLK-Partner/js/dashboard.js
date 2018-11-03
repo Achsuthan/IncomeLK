@@ -2,9 +2,9 @@
     var dataSetContent = []
     var columnsContent = [{ title : "ID", orderable : false},
                   { title : "Content_ID", orderable : false},
-                  { title : "Content Heading"},
+                  { title : "Image"},
+                  {  title : "Content Heading"},
                   {  title : "Type"},
-                  {  title : "Image"},
                   {  title : "Edit",  orderable : false},
                   {  title : "Delete",  orderable : false},
                   {  title : "Move to Top", orderable : false} ]
@@ -19,6 +19,7 @@
     });
 
     var contentTable = $('#dataTables-content').DataTable({
+        
         data: dataSetContent,
         columns: columnsContent,
         responsive: true,
@@ -31,6 +32,7 @@
 
     getContents()
     getAdmins()
+    getDashboardDetails()
 
     
 
@@ -55,11 +57,11 @@
                             for (var i =0; i< result["content"].length; i++){
                                 tmpResult = result["content"][i]
                                 var tmp =  []
-                                tmp.push(i)
+                                tmp.push(i+1)
                                 tmp.push(tmpResult["content_id"])
+                                tmp.push("<img src = "+baseURL+"/"+tmpResult['image_url']+" responsive style='max-height:100px; max-width: 100px'> </img>")
                                 tmp.push(tmpResult["heading"])
                                 tmp.push(tmpResult["type"])
-                                tmp.push("<img src = "+baseURL+"/"+tmpResult['image_url']+" responsive style='max-height:100px; max-width: 100px'> </img>")
                                 var editBtn = "<button type='button' class='btn btn-success' style='padding: 10px' onclick =editContent('"+tmpResult["content_id"]+"') >Edit</button>"
                                 tmp.push(editBtn)
                                 var deleteBtn = "<button type='button' class='btn btn-danger' style='padding: 10px' onclick =deleteContent('"+tmpResult["content_id"]+"') >Delete</button>"
@@ -123,6 +125,38 @@
                                 AdminTable.columns.adjust().draw();
                             }
                         }
+                    }
+                    else {
+                        contentTable.clear().draw();
+                        contentTable.rows.add(dataSetContent);
+                        contentTable.columns.adjust().draw();
+                    }
+                }else {
+                }
+            },
+            error: function() { 
+            },
+        });
+    }
+
+    function getDashboardDetails(){
+        dataSetContent = []
+        var ajaxurl = baseURL+"/get_dashboard.php"
+        $.ajax({
+
+            url: ajaxurl,
+            type: 'GET',
+            success: function(response) { 
+                console.log(response);
+                var result = jQuery.parseJSON(response)
+                console.log(result)
+                if (result["message"] == "success"){
+                    var result = jQuery.parseJSON(response)
+                    if (result["message"] == "success"){
+                        $("#today").text(result["today_visit"])
+                        $("#today_subscribe").text(result["today_subscribe"])
+                        $("#subscribe").text(result["subscribe"])
+                        $("#unsubscribe").text(result["unsubscribe"])
                     }
                     else {
                         contentTable.clear().draw();

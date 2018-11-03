@@ -23,22 +23,29 @@ $file = parse_ini_file("Test.ini"); //get the database name,username ,password v
 //$access->connect();
 
 
+$access->getDialogToken();
 
-$access->sendMail("achsuthan@icloud.com","sa","dsf");
+$currentTime = $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000  - 86400000;
+
+echo $currentTime;
+
+//1541265406000
+
+//$access->sendMail("achsuthan@icloud.com","sa","dsf");
 
 // $data = array("method" => "ANC", "msisdn" => "94774455878"); 
 // $data = json_encode($data);
 // $access->APICall("",$data,"")
 
-$plain_txt = "IncomeLK";
-echo "Plain Text =" .$plain_txt. "\n";
-$encrypted_txt = $access->encrypt_decrypt('encrypt', $plain_txt);
-echo "Encrypted Text = " .$encrypted_txt. "\n";
-$decrypted_txt = $access->encrypt_decrypt('decrypt', $encrypted_txt);
-echo "Decrypted Text =" .$decrypted_txt. "\n";
-if ( $plain_txt === $decrypted_txt ) echo "SUCCESS";
-else echo "FAILED";
-echo "\n";
+// $plain_txt = "IncomeLK";
+// echo "Plain Text =" .$plain_txt. "\n";
+// $encrypted_txt = $access->encrypt_decrypt('encrypt', $plain_txt);
+// echo "Encrypted Text = " .$encrypted_txt. "\n";
+// $decrypted_txt = $access->encrypt_decrypt('decrypt', $encrypted_txt);
+// echo "Decrypted Text =" .$decrypted_txt. "\n";
+// if ( $plain_txt === $decrypted_txt ) echo "SUCCESS";
+// else echo "FAILED";
+// echo "\n";
 
 
 

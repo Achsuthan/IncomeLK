@@ -19,10 +19,10 @@ class access
 
     function __construct($dbhost,$dbuser,$dbpass,$dbname)   //get the values from the caller
     {
-        $this->host= $this->encrypt_decrypt("decript",$dbhost);   //assgin the hostname
-        $this->user= $this->encrypt_decrypt("decript",$dbuser);   //assign the username
-        $this->pass= $this->encrypt_decrypt("decript",$dbpass);   //assign the password
-        $this->dbname= $this->encrypt_decrypt("decript",$dbname);  //assgin the db name
+        $this->host= $this->encrypt_decrypt("decrypt",$dbhost);   //assgin the hostname
+        $this->user= $this->encrypt_decrypt("decrypt",$dbuser);   //assign the username
+        $this->pass= $this->encrypt_decrypt("decrypt",$dbpass);   //assign the password
+        $this->dbname= $this->encrypt_decrypt("decrypt",$dbname);  //assgin the db name
     }
 
     public function connect()   //DB connection
@@ -48,35 +48,35 @@ class access
     public function sendMail($receiver, $body, $subject){
         //MARK: - Sending Mail
 
-        // require("vendor/autoload.php");
-        // require_once('vendor/phpmailer/phpmailer/PHPMailerAutoload.php');
-        // $mail = new PHPMailer();
+        require("vendor/autoload.php");
+        require_once('vendor/phpmailer/phpmailer/PHPMailerAutoload.php');
+        $mail = new PHPMailer();
 
-        // $mail->isSMTP();
-        // $mail->Host       = "ssl://smtp.gmail.com:465";
-        // $mail->SMTPAuth   = true;
-        // $mail->Password   = "achsuthan4455878";
-        // $mail->SMTPSecure = "ssl";
-        // $mail->Port       = 465;
-        // $mail->Username   = "achsuthancopy9314@gmail.com";
-        // $mail->From       = "noreplay@income.lk";
-        // $mail->FromName   = $receiver;
-        // $mail->addAddress($receiver, "");
-        // $mail->isHTML(true);
-        // $mail->Subject = $subject;
-        // $mail->Body    = $body;
-        // $mail->AltBody = " ";
-        // if (!$mail->send()) {
-        //     $status = true;
-        // } else {
-        //     $status = false;
-        // }
+        $mail->isSMTP();
+        $mail->Host       = "ssl://smtp.gmail.com:465";
+        $mail->SMTPAuth   = true;
+        $mail->Password   = "achsuthan4455878";
+        $mail->SMTPSecure = "ssl";
+        $mail->Port       = 465;
+        $mail->Username   = "achsuthancopy9314@gmail.com";
+        $mail->From       = "noreplay@income.lk";
+        $mail->FromName   = $receiver;
+        $mail->addAddress($receiver, "");
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+        $mail->AltBody = " ";
+        if (!$mail->send()) {
+            $status = true;
+        } else {
+            $status = false;
+        }
 
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        // $headers = "MIME-Version: 1.0" . "\r\n";
+        // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-        $headers .= 'From: noReply@income.lk' . "\r\n";
-        $status = mail($receiver,$subject,$body,$headers);
+        // $headers .= 'From: noReply@income.lk' . "\r\n";
+        // $status = mail($receiver,$subject,$body,$headers);
         return $status;
     }
 
@@ -423,7 +423,7 @@ class access
     }
 
     public function getAllContent(){
-        $sql    = "Select * from content ORDER BY updated_date DESC";  //get the last value form the database
+        $sql    = "Select content_id,image_url,heading,type from content ORDER BY updated_date DESC";  //get the last value form the database
         $result = $this->con->query($sql);                          //get the result by executing the sql query
         if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
         {
@@ -578,85 +578,412 @@ class access
 
     }
 
-    public function requestOTP($OTP){
+    public function getDashboardDetails(){
+        $returnResult = [];
+        $returnResult["message"] = "success";
+        $returnResult["subscribe"] = $this->getSubscribeDetails();
+        $returnResult["unsubscribe"] = $this->getUnSubscribeDetails();
+        $returnResult["today_visit"] = $this->getTodayVisit();
+        $returnResult["today_subscribe"] = $this->todaySubscription();
 
+        return $returnResult;
+    }
+
+    public function getSubscribeDetails(){
+        $sql    = "Select count(phone_number) from user Where is_subscribe = '1' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return $row["count(phone_number)"];
+            }
+            else {
+                return "0";
+            }
+        }
+        else {
+            return "0";
+        }
+    }
+
+    public function getUnSubscribeDetails(){
+        $sql    = "Select count(phone_number) from user Where is_subscribe = '0' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return $row["count(phone_number)"];
+            }
+            else {
+                return "0";
+            }
+        }
+        else {
+            return "0";
+        }
+    }
+
+    public function getTodayVisit(){
+        $currentTime = $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000  - 86400000;
+        $sql    = "Select count(phone_number) from user Where updated_date >= '".$currentTime."' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return $row["count(phone_number)"];
+            }
+            else {
+                return "0";
+            }
+        }
+        else {
+            return "0";
+        }
+    }
+
+    public function todaySubscription(){
+        $currentTime = $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000  - 86400000;
+        $sql    = "Select count(phone_number) from user Where subscribed_date >= '".$currentTime."' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return $row["count(phone_number)"];
+            }
+            else {
+                return "0";
+            }
+        }
+        else {
+            return "0";
+        }
+    }
+
+    public function requestOTP($phone_number){
+        $url = "https://ideabiz.lk/apicall/pin/subscription/v1/subscribe";
+        $file = parse_ini_file("Test.ini");
+        $ideaBiz = trim($file["ideabiz"]);
+        $header = [
+            'Content-Type: application/json',
+            "Authorization: Bearer $ideaBiz",
+            'Accept: application/json',
+        ];
+
+        $data = array("method" => "ANC", "msisdn" => $phone_number); 
+        $data = json_encode($data);
+        $result = $this->APICall($url,$data,"POST",$header);
+        print_r($result);
+        if (isset($result["statusCode"])){
+            if ($result["statusCode"] == "SUCCESS"){
+                //return 1;
+                if ($this->saveOTP($phone_number,$result["data"]["serverRef"]) == 1){
+                    return 1;
+                }
+                else {
+                    $returnArray = [];
+                    $returnArray["message"] = "failed";
+                    $returnArray["details"] = "Something went wrong please try again a bit";
+                    return $returnArray;
+                }
+
+            }
+            else {
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
+            }
+        }
+        else {
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Something went wrong please try again a bit";
+            return $returnArray;
+        }
+    }
+
+    
+    public function checkBalance($phone_number){
+        $url = "https://ideabiz.lk/apicall/balancecheck/v4/$phone_number/transactions/amount/balance";
+        $file = parse_ini_file("Test.ini");
+        $ideaBiz = trim($file["ideabiz"]);
+        $header = [
+            'Content-Type: application/json',
+            "Authorization: Bearer $ideaBiz",
+            'Accept: application/json',
+        ];
+
+        $data = "";
+        $result = $this->APICall($url,$data,"GET",$header);
+        print_r($result);
+        if (isset($result["accountInfo"]["balance"])){
+            if ($result["accountInfo"]["accountType"] == "POSTPAID"){
+                return 1;
+            }
+            else if ($result["accountInfo"]["balance"] > 10){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        else {
+            return 0;
+        }
     }
 
     public function OTPVerfication($phone, $OTP){
+        $url = "https://ideabiz.lk/apicall/pin/subscription/v1/submitPin";
+        $file = parse_ini_file("Test.ini");
+        $ideaBiz = trim($file["ideabiz"]);
+        $header = [
+            'Content-Type: application/json',
+            "Authorization: Bearer $ideaBiz",
+            'Accept: application/json',
+        ];
 
+
+        $sql    = "Select server_ref from user Where phone_number = '".$phone."' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                $serverRef = $row["server_ref"];
+
+                if ($serverRef != "" ){
+                    $data = array("pin" => $OTP, "serverRef" => $this->encrypt_decrypt("decrypt",$serverRef));
+                    $data = json_encode($data);
+                    $result = $this->APICall($url,$data,"POST",$header);
+                    print_r($result);
+                    if (isset($result["statusCode"])){
+                        if ($result["statusCode"] == "SUCCESS"){
+
+                            if (isset($result["data"]["status"])){
+                                if ($result["data"]["status"] == "ALREADY_SUBSCRIBED"){
+                                    $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
+                                    $sql = "UPDATE user SET server_ref = '', is_subscribe = '1' , updated_date='".$updated_date."', subscribed_date='".$updated_date."' WHERE phone_number='".$phone."'";
+                                    if ($this->con->query($sql) === TRUE) {  
+                                        return 1;
+                                    } else {
+                                        return 0;
+                                    }
+                                }
+                                else {
+                                    if ($this->checkBalance($phone) == 1 ){
+                                        //return 1;
+                                        //do charge
+                                        if($this->chargeUser($phone) == 1){
+                                            return 1;
+                                        }
+                                        else {
+                                            $returnArray = [];
+                                            $returnArray["message"] = "failed";
+                                            $returnArray["details"] = "Something went wrong please try again a bit";
+                                            return $returnArray;
+                                        }   
+                                    }
+                                    else {
+                                        $returnArray = [];
+                                        $returnArray["message"] = "failed";
+                                        $returnArray["details"] = "Something went wrong please try again a bit";
+                                        return $returnArray;
+                                    }   
+                                }
+                            }
+                            else {
+                                $returnArray = [];
+                                $returnArray["message"] = "failed";
+                                $returnArray["details"] = "Something went wrong please try again a bit";
+                                return $returnArray;
+                            } 
+                        }
+                        else {
+                            $returnArray = [];
+                            $returnArray["message"] = "failed";
+                            $returnArray["details"] = "Something went wrong please try again a bit";
+                            return $returnArray;
+                        }      
+                    }
+                    else {
+                        $returnArray = [];
+                        $returnArray["message"] = "failed";
+                        $returnArray["details"] = "Something went wrong please try again a bit";
+                        return $returnArray;
+                    }
+                }
+                else {
+
+                }
+            }
+            else {
+                $returnArray = [];
+                $returnArray["message"] = "failed";
+                $returnArray["details"] = "Something went wrong please try again a bit";
+                return $returnArray;
+            }
+        }
+        else {
+            $returnArray = [];
+            $returnArray["message"] = "failed";
+            $returnArray["details"] = "Something went wrong please try again a bit";
+            return $returnArray;
+        }
+    }
+
+    public function chargeUser($phone){
+        $url = "https://ideabiz.lk/apicall/payment/v4/$phone/transactions/amount";
+        $file = parse_ini_file("Test.ini");
+        $ideaBiz = trim($file["ideabiz"]);
+        $header = [
+            'Content-Type: application/json',
+            "Authorization: Bearer $ideaBiz",
+            'Accept: application/json',
+        ];
+        $current_time = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
+        $chargingMetaData = array("onBehalfOf"=>"IdeaBiz Test","purchaseCategoryCode"=>"Service","channel"=>"WAP","taxAmount"=>"0","serviceID"=>"INC");
+        $chargingInformation = array("amount"=>"0.01","currency"=>"LKR","description"=>"Test Charge");
+        $paymentAmount = array("chargingInformation"=>$chargingInformation,"chargingMetaData"=>$chargingMetaData);
+        $amountTransaction = array("clientCorrelator"=>"$current_time","endUserId"=>"tel:+$phone","paymentAmount"=>$paymentAmount,"referenceCode"=>"REF-12345","transactionOperationStatus"=>"Charged");
+
+        $data = array("amountTransaction"=>$amountTransaction);
+        $data = json_encode($data);
+        $result = $this->APICall($url,$data,"POST",$header);
+        print_r($result);
+        if (isset($result["amountTransaction"])){
+            if ($result["amountTransaction"]["transactionOperationStatus"] == "Charged"){
+                $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
+                $sql = "UPDATE user SET server_ref = '', is_subscribe = '1' , updated_date='".$updated_date."', subscribed_date='".$updated_date."' WHERE phone_number='".$phone."'";
+                if ($this->con->query($sql) === TRUE) {  
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+            else {
+                return 0;
+            }
+        }
+        else {
+            return 0;
+        }
+        return 1;
     }
 
     public function getDialogToken(){
-
+        $data = "grant_type=password&username=Storytellers&password=Jeevithan5&scope=PRODUCTION";
+        $header = [
+            'Content-Type: application/x-www-form-urlencoded',
+            'Authorization: Basic TTBSTTN5UnV2MmxBQ2VVWlRoTGFmcHhnMXJNYTpTc0YyS3dSX1FVcERzZ0JIVUt2c2lpTFRpV0lh'
+        ];
+        $url = "https://ideabiz.lk/apicall/token";
+        $result = $this->APICall($url,$data,"POST",$header);
+        
+        if (isset($result["access_token"])){
+            $this->config_set("Test.ini","live","ideabiz",$result["access_token"]);
+        }        
     }
 
-    public function APICall($urll,$parameter, $method){
-        $url = "https://ideabiz.lk/apicall/pin/subscription/v1/subscribe";
+    private function config_set($config_file, $section, $key, $value) {
+        echo (realpath($config_file)) . PHP_EOL;
+        $config_data = parse_ini_file($config_file, true);
+        print_r($config_data);
+        $config_data[$section][$key] = $value;
+        $new_content = '';
+        foreach ($config_data as $section => $section_content) {
+            $section_content = array_map(function($value, $key) {
+                return "$key=$value";
+            }, array_values($section_content), array_keys($section_content));
+            $section_content = implode("\n", $section_content);
+            $new_content .= "[$section]\n$section_content\n";
+        }
+        file_put_contents($config_file, $new_content);
+    }
+
+    public function APICall($url,$parameter, $method, $headers){
         $curl = curl_init();
 
-    // switch ($method)
-    // {
-    //     case "POST":
-    //         curl_setopt($curl, CURLOPT_POST, 1);
+        switch ($method) {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
+                if ($parameter)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $parameter);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_PUT, 1);
+                break;
+            case "GET":
+                curl_setopt($curl, CURLOPT_HTTPGET, 1);
+                break;
+            default:
+                if ($parameter)
+                    $url = sprintf("%s?%s", $url, http_build_query($parameter));
+        }
 
-    //         if ($data)
-    //             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    //         break;
-    //     case "PUT":
-    //         curl_setopt($curl, CURLOPT_PUT, 1);
-    //         break;
-    //     default:
-    //         if ($data)
-    //             $url = sprintf("%s?%s", $url, http_build_query($data));
-    // }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
+        $result = curl_exec($curl);
 
-     //$data = "grant_type=password&username=Storytellers&password=Jeevithan5&scope=PRODUCTION";
-     //$data = "method=ANC&msisdn=94774455878";
-
-    //  $data = array("method" => "ANC", "msisdn" => "94774455878"); 
-    //  $data = json_encode($data);
-
-    curl_setopt($curl, CURLOPT_POST, 1);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $parameter );
-    // 'Content-Type: application/x-www-form-urlencoded',
-
-    $headers = [
-        'Content-Type: application/json',
-        'Authorization: Bearer 27bedaeb8c117c964acc29516d986479',
-        'Accept: application/json'
-    ];
-
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
-    // Optional Authentication:
-    // curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    // curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-    print_r($curl);
-    $result = curl_exec($curl);
-
-    curl_close($curl);
-
-    
-    $result = json_decode($result,true);
-    print_r($result);
-    $accessToken = $result["access_token"];
-    if (isset($result["hello"])){
-        echo "Vlaue found";
+        curl_close($curl);
+        $result = json_decode($result,true);
+        return $result;
     }
-    else {
-        echo "value not found";
-    }
-    echo "Hello $accessToken";
-    return $result;
+
+    public function saveOTP($phone, $serverRef){
+        if ($this->checkUser($phone) == 1){
+            $registered_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
+            $sql = "UPDATE user SET server_ref = '".$this->encrypt_decrypt("encrypt",$serverRef)."', is_subscribe = '0' , registered_date='".$registered_date."' WHERE phone_number='".$phone."'";
+            if ($this->con->query($sql) === TRUE) {  
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        else {
+            $registered_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
+            $sql = "INSERT INTO user (phone_number, server_ref, is_subscribe, registered_date)
+            VALUES ('".$phone."', '".$this->encrypt_decrypt("encrypt",$serverRef)."', '0','".$registered_date."')";
+            if ($this->con->query($sql) === TRUE) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
     }
 
 
-    function encrypt_decrypt($action, $string) {
+    public function checkUser($phone){
+        $sql    = "Select * from user Where phone_number = '".$phone."' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return true;
+            }
+            else {
+               return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    public function encrypt_decrypt($action, $string) {
         $output = false;
         $encrypt_method = "AES-256-CBC";
         $secret_key = 'jeevithan_secret_ley';

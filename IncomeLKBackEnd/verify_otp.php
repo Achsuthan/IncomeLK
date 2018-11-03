@@ -24,7 +24,7 @@ else {
     if ($result == 1){
         $returnArray = [];
         $returnArray["message"] = "success";
-        $returnArray["details"] = "Your content details updated successfully";
+        $returnArray["details"] = "User Successfully verified";
         echo json_encode($returnArray);
     }
     else {
