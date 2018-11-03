@@ -9,7 +9,7 @@ $(document).ready(function(){
             $("#phone").css("border-color","black")
             if (phoneNumber.length == 10 && $.isNumeric(phoneNumber) && (phoneNumber.substring(0,3) == "077" || phoneNumber.substring(0,3) == "076")){
                 $("#phone").css("border-color","black")
-                window.location.href = "otp.html";
+                getOTP()
             }
             else {
                 $("#phone").css("border-color","red")
@@ -33,13 +33,8 @@ function getOTP(){
             var result = jQuery.parseJSON(response)
             console.log(result)
             if (result["message"] == "success"){
-                if (result["content"].length > 0){
-                    console.log("hello")
-                   
-                }
-                else {
-
-                }
+                localStorage.setItem("phone",$("#phone").val())
+                window.location.href = "otp.html";
             }else {
                 console.log("No content availablle")
             }

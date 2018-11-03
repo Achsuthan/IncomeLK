@@ -1,12 +1,12 @@
-<?php 
+<?php
 header('Access-Control-Allow-Origin: *'); 
-if (empty($_POST["phone"])) {
+if (empty($_POST["start"]) && empty($_POST["end"])) {
     $output["message"] = "failed";
     $output["content"] = "Email field is empty";
 } 
 else {
-    $phone = $_POST["phone"];
-
+    $start = $_POST["start"];
+    $end = $_POST["end"];
     $file = parse_ini_file("Test.ini");
 
     $host = trim($file["dbhost"]);
@@ -19,12 +19,12 @@ else {
 
     $access->connect();
 
-    $phone = substr($phone,1);
-    $result = $access->requestOTP("94$phone");
+    $result = $access->getFilteredDashboard($start,$end);
+
     if ($result == 1){
         $returnArray = [];
         $returnArray["message"] = "success";
-        $returnArray["details"] = "OTP password send successfully";
+        $returnArray["details"] = "Welcome to Income.lk";
         echo json_encode($returnArray);
     }
     else {

@@ -7,23 +7,16 @@ $(document).ready(function(){
         }
         else {
             $("#otp").css("border-color","black")
-            window.location.href = "content.html";
-            // if (phoneNumber.length == 10 && $.isNumeric(phoneNumber) && (phoneNumber.substring(0,3) == "077" || phoneNumber.substring(0,3) == "076")){
-            //     $("#otp").css("border-color","black")
-            //     window.location.href = "otp.html";
-            // }
-            // else {
-            //     $("#otp").css("border-color","red")
-            // }
+            verfyOTP()
         }
     })
 });
 
 
-function getOTP(){
+function verfyOTP(){
         
-    var ajaxurl = baseURL+"/request_otp.php",
-    data =  {'otp': $("#otp").val()};
+    var ajaxurl = baseURL+"/verify_otp.php",
+    data =  {'otp': $("#otp").val(),'phone':localStorage.getItem("phone")};
     $.ajax({
 
         url: ajaxurl,
@@ -34,13 +27,8 @@ function getOTP(){
             var result = jQuery.parseJSON(response)
             console.log(result)
             if (result["message"] == "success"){
-                if (result["content"].length > 0){
-                    console.log("hello")
-                   
-                }
-                else {
-
-                }
+                console.log("hello")
+                window.location.href = "content.html";
             }else {
                 console.log("No content availablle")
             }

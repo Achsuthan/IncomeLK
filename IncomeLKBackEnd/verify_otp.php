@@ -20,7 +20,8 @@ else {
 
     $access->connect();
 
-    $result = $access->OTPVerfication($phone,$otp);
+    $phone = substr($phone,1);
+    $result = $access->OTPVerfication("94$phone",$otp);
     if ($result == 1){
         $returnArray = [];
         $returnArray["message"] = "success";

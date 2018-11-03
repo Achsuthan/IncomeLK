@@ -578,6 +578,10 @@ class access
 
     }
 
+    public function getFilteredDashboard(){
+        
+    }
+
     public function getDashboardDetails(){
         $returnResult = [];
         $returnResult["message"] = "success";
@@ -680,7 +684,7 @@ class access
         $data = array("method" => "ANC", "msisdn" => $phone_number); 
         $data = json_encode($data);
         $result = $this->APICall($url,$data,"POST",$header);
-        print_r($result);
+        //print_r($result);
         if (isset($result["statusCode"])){
             if ($result["statusCode"] == "SUCCESS"){
                 //return 1;
@@ -723,7 +727,7 @@ class access
 
         $data = "";
         $result = $this->APICall($url,$data,"GET",$header);
-        print_r($result);
+        //print_r($result);
         if (isset($result["accountInfo"]["balance"])){
             if ($result["accountInfo"]["accountType"] == "POSTPAID"){
                 return 1;
@@ -764,7 +768,7 @@ class access
                     $data = array("pin" => $OTP, "serverRef" => $this->encrypt_decrypt("decrypt",$serverRef));
                     $data = json_encode($data);
                     $result = $this->APICall($url,$data,"POST",$header);
-                    print_r($result);
+                    //print_r($result);
                     if (isset($result["statusCode"])){
                         if ($result["statusCode"] == "SUCCESS"){
 
@@ -851,14 +855,14 @@ class access
         ];
         $current_time = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
         $chargingMetaData = array("onBehalfOf"=>"IdeaBiz Test","purchaseCategoryCode"=>"Service","channel"=>"WAP","taxAmount"=>"0","serviceID"=>"INC");
-        $chargingInformation = array("amount"=>"0.01","currency"=>"LKR","description"=>"Test Charge");
+        $chargingInformation = array("amount"=>"0.0000000000000000001","currency"=>"LKR","description"=>"Test Charge");
         $paymentAmount = array("chargingInformation"=>$chargingInformation,"chargingMetaData"=>$chargingMetaData);
         $amountTransaction = array("clientCorrelator"=>"$current_time","endUserId"=>"tel:+$phone","paymentAmount"=>$paymentAmount,"referenceCode"=>"REF-12345","transactionOperationStatus"=>"Charged");
 
         $data = array("amountTransaction"=>$amountTransaction);
         $data = json_encode($data);
         $result = $this->APICall($url,$data,"POST",$header);
-        print_r($result);
+        //print_r($result);
         if (isset($result["amountTransaction"])){
             if ($result["amountTransaction"]["transactionOperationStatus"] == "Charged"){
                 $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000;
@@ -896,7 +900,7 @@ class access
     private function config_set($config_file, $section, $key, $value) {
         echo (realpath($config_file)) . PHP_EOL;
         $config_data = parse_ini_file($config_file, true);
-        print_r($config_data);
+        //print_r($config_data);
         $config_data[$section][$key] = $value;
         $new_content = '';
         foreach ($config_data as $section => $section_content) {

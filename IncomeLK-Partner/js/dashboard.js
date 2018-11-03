@@ -320,6 +320,7 @@
                         console.log(this.responseText);
                         var response = this.responseText
                         alert("Content Added Successfully");
+                        
                         getContents()
 
                     }
@@ -370,6 +371,9 @@
                         create = true
 
                         alert("Content updated Successfully");
+                        $("html, body").delay(500).animate({
+                            scrollTop: $('#dataTables-content').offset().top 
+                        }, 2000);
                         getContents()
                     }else {
                         console.log("Error")
@@ -597,7 +601,10 @@ function moveTop(id){
 
 function editContent(content_id){
     console.log(content_id)
-
+    $("html, body").delay(500).animate({
+        scrollTop: $('#artical').offset().top 
+    }, 2000);
+    
     getContentByID(content_id)
 
     
