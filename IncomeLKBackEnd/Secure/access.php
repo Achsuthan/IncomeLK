@@ -19,10 +19,10 @@ class access
 
     function __construct($dbhost,$dbuser,$dbpass,$dbname)   //get the values from the caller
     {
-        $this->host=$dbhost;   //assgin the hostname
-        $this->user=$dbuser;   //assign the username
-        $this->pass=$dbpass;   //assign the password
-        $this->dbname=$dbname;  //assgin the db name
+        $this->host= $this->encrypt_decrypt("decript",$dbhost);   //assgin the hostname
+        $this->user= $this->encrypt_decrypt("decript",$dbuser);   //assign the username
+        $this->pass= $this->encrypt_decrypt("decript",$dbpass);   //assign the password
+        $this->dbname= $this->encrypt_decrypt("decript",$dbname);  //assgin the db name
     }
 
     public function connect()   //DB connection
@@ -584,6 +584,95 @@ class access
 
     public function OTPVerfication($phone, $OTP){
 
+    }
+
+    public function getDialogToken(){
+
+    }
+
+    public function APICall($urll,$parameter, $method){
+        $url = "https://ideabiz.lk/apicall/pin/subscription/v1/subscribe";
+        $curl = curl_init();
+
+    // switch ($method)
+    // {
+    //     case "POST":
+    //         curl_setopt($curl, CURLOPT_POST, 1);
+
+    //         if ($data)
+    //             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    //         break;
+    //     case "PUT":
+    //         curl_setopt($curl, CURLOPT_PUT, 1);
+    //         break;
+    //     default:
+    //         if ($data)
+    //             $url = sprintf("%s?%s", $url, http_build_query($data));
+    // }
+
+
+     //$data = "grant_type=password&username=Storytellers&password=Jeevithan5&scope=PRODUCTION";
+     //$data = "method=ANC&msisdn=94774455878";
+
+    //  $data = array("method" => "ANC", "msisdn" => "94774455878"); 
+    //  $data = json_encode($data);
+
+    curl_setopt($curl, CURLOPT_POST, 1);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $parameter );
+    // 'Content-Type: application/x-www-form-urlencoded',
+
+    $headers = [
+        'Content-Type: application/json',
+        'Authorization: Bearer 27bedaeb8c117c964acc29516d986479',
+        'Accept: application/json'
+    ];
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+    // Optional Authentication:
+    // curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    // curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+    print_r($curl);
+    $result = curl_exec($curl);
+
+    curl_close($curl);
+
+    
+    $result = json_decode($result,true);
+    print_r($result);
+    $accessToken = $result["access_token"];
+    if (isset($result["hello"])){
+        echo "Vlaue found";
+    }
+    else {
+        echo "value not found";
+    }
+    echo "Hello $accessToken";
+    return $result;
+    }
+
+
+    function encrypt_decrypt($action, $string) {
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $secret_key = 'jeevithan_secret_ley';
+        $secret_iv = 'jeevithan_secret_iv';
+        // hash
+        $key = hash('sha256', $secret_key);
+        
+        // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+        if ( $action == 'encrypt' ) {
+            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+            $output = base64_encode($output);
+        } else if( $action == 'decrypt' ) {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+        return $output;
     }
 
 }
