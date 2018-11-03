@@ -67,10 +67,11 @@ class access
         $mail->Body    = $body;
         $mail->AltBody = " ";
         if (!$mail->send()) {
-            //echo "Mailer Error: " . $mail->ErrorInfo;
+            echo "Mailer Error: " . $mail->ErrorInfo;
             $status = true;
         } else {
             //echo "Message has been sent successfully";
+            echo "Mailer Error error: " . $mail->ErrorInfo;
             $status = false;
         }
         return $status;
