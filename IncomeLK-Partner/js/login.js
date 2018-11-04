@@ -13,6 +13,10 @@ $(document).ready(function(){
         $("#email-otp").removeClass()
         $("#email-otp").addClass("form-group")
     });
+
+    $("#resend").click(function(){
+        getCode()
+    })
     
 
     $("#login").click(function(){
@@ -48,6 +52,7 @@ $(document).ready(function(){
             else if (email != $("#email").val()) {
                 emailValid = false
                 $("#otp-group").css("display","none")
+                $("#resend").css("display","none")
                 $("#email-goup").removeClass()
                 $("#email-group").addClass("form-group has-error")
             }
@@ -73,6 +78,7 @@ $(document).ready(function(){
                     $("#container").css("display","block")
                     $("#loader").css("display","none")
                     $("#otp-group").css("display","block")
+                    $("#resend").css("display","block")
                     emailValid = true
                     email = $("#email").val()
                     $("#email-group").removeClass()
@@ -83,6 +89,7 @@ $(document).ready(function(){
                     emailValid = false
                     email = ""
                     $("#otp-group").css("display","none")
+                    $("#resend").css("display","none")
                     $("#email-goup").removeClass()
                     $("#email-group").addClass("form-group has-error")
                 }

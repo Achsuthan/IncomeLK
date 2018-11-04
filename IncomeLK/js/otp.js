@@ -12,11 +12,19 @@ $(document).ready(function(){
             verfyOTP()
         }
     })
+
+    if(localStorage.getItem("phone") == ""){
+        window.location.href = "phone.html";
+    }
 });
 
 $("#otp").keyup(function(event){
     $("#error").text("")
     $("#error").css("display","none")
+})
+
+$("#get_code").click(function(){
+    getOTP()
 })
 
 
@@ -44,6 +52,29 @@ function verfyOTP(){
                 console.log("No content availablle")
                 $("#error").text(result["details"])
                 $("#error").css("display","block")
+            }
+        },
+        error: function() { 
+        },
+    });
+}
+
+function getOTP(){
+        
+    var ajaxurl = baseURL+"/request_otp.php",
+    data =  {'phone': localStorage.getItem("phone")};
+    $.ajax({
+
+        url: ajaxurl,
+        data: data,
+        type: 'POST',
+        success: function(response) { 
+            console.log(response);
+            var result = jQuery.parseJSON(response)
+            console.log(result)
+            if (result["message"] == "success"){
+                
+            }else {
             }
         },
         error: function() { 
