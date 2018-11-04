@@ -139,8 +139,8 @@
                                             <label>End Date</label><br/>
                                             <input class="form-control" id="endDate" type="date" />
                                         </div>
-                                        <button type="submit" class="btn btn-success" id="getResult"  style="padding: 10px">Get Result</button>
-                                        <button type="reset" class="btn btn-warning" style="padding: 10px;">Cancel</button>
+                                        <button type="button" class="btn btn-success" id="getResult"  style="padding: 10px">Get Result</button>
+                                        <button type="button"  class="btn btn-warning" style="padding: 10px;" id="cancel">Cancel</button>
                                 </div>
                                 <!-- /.panel-body -->
                             </div>
@@ -292,19 +292,7 @@
 
    $('#startDate').val(today);
    $('#endDate').val(today);
-    
-    $('#getResult').click(function(){
-        
-        testClicked();
-        
-    });
 });
-function testClicked()
-{
-    
-console.log(    $('#startDate').val());   
-console.log(    $('#endDate').val());    
-}
             </script>
 
             <script src="js/url.js"></script>

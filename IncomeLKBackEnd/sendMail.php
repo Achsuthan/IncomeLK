@@ -25,7 +25,7 @@ $file = parse_ini_file("Test.ini"); //get the database name,username ,password v
 
 //$access->getDialogToken();
 echo "hello";
-echo $access->encrypt_decrypt("decrypt","dVp4YWJ4Nm4yWkw");
+echo $access->encrypt_decrypt("encrypt","138e46a3c2b894b5ecf749b32ec7ca24");
 
 $currentTime = $updated_date = strtotime(date("Y-m-d\TH:i:s\Z"))*1000  - 86400000;
 

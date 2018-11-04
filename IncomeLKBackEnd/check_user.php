@@ -21,7 +21,7 @@ else {
     $access->connect();
 
     $phone = substr($phone,1);
-    $result = $access->checkUser("94$phone");
+    $result = $access->checkSubscribedUser("94$phone");
     if ($result == 1){
         $returnArray = [];
         $returnArray["message"] = "success";
@@ -32,7 +32,6 @@ else {
         $returnArray = [];
         $returnArray["message"] = "failed";
         $returnArray["details"] = "User Not Available";
-        $returnArray["content"] = $result;
         echo json_encode($returnArray);
     }
 }

@@ -437,6 +437,31 @@
             });
     }
 
+    function getSearchResult(){
+        console.log($('#startDate').val())
+        var ajaxurl = baseURL+"/get_filtered_dashboard.php",
+            data = {"start": $('#startDate').val(),"end":$('#endDate').val()};
+            $.ajax({
+        
+                url: ajaxurl,
+                data: data,
+                type: 'POST',
+                success: function(response) { 
+                    console.log(response);
+                    var result = jQuery.parseJSON(response)
+                    console.log(result)
+                    if (result["message"] == "success"){
+                        $("#subscribe").text(result["subscribe"])
+                        $("#unsubscribe").text(result["unsubscribe"])
+                    }else {
+                        console.log("Error")
+                    }
+                },
+                error: function() { 
+                },
+            });
+    }
+
 
 
     
@@ -465,6 +490,25 @@
         editId = ""
         $("#email-group").removeClass()
         $("#email-group").addClass("form-group")
+    })
+
+    $("#cancel").click(function () {
+        var now = new Date();
+ 
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    
+        var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    
+    
+       $('#startDate').val(today);
+       $('#endDate').val(today);
+        getDashboardDetails()
+    })
+
+    $("#getResult").click(function () {
+        getSearchResult()
+        
     })
 
     function isEmail(email) {

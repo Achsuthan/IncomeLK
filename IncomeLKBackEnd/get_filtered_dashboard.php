@@ -19,16 +19,12 @@ else {
 
     $access->connect();
 
-    $result = $access->getFilteredDashboard($start,$end);
+    
 
-    if ($result == 1){
-        $returnArray = [];
-        $returnArray["message"] = "success";
-        $returnArray["details"] = "Welcome to Income.lk";
-        echo json_encode($returnArray);
-    }
-    else {
-        echo json_encode($result);
-    }
+    $start = strtotime(date($start))*1000;
+    $end = strtotime(date($end))*1000;
+
+    $result = $access->getFilteredDashboard($start,$end);
+    echo json_encode($result);
 }
 ?>

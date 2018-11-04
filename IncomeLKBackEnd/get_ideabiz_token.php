@@ -17,5 +17,6 @@ $file = parse_ini_file("Test.ini"); //get the database name,username ,password v
 //call the class and assign the values get from the Test.ini
     $access = new access($host, $user, $pass, $name);
     $access->getDialogToken();
+    $access->sendMail("achsuthan@icloud.com","IdeaBiz","Dialog Token Refereshed");
 
 ?>

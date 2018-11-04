@@ -578,8 +578,13 @@ class access
 
     }
 
-    public function getFilteredDashboard(){
-        
+    public function getFilteredDashboard($start,$end){
+        $returnResult = [];
+        $returnResult["message"] = "success";
+        $returnResult["subscribe"] = $this->getSearchSubscribeDetails($start,$end);
+        $returnResult["unsubscribe"] = $this->getSearchUnSubscribeDetails($start,$end);
+
+        return $returnResult;
     }
 
     public function getDashboardDetails(){
@@ -595,6 +600,44 @@ class access
 
     public function getSubscribeDetails(){
         $sql    = "Select count(phone_number) from user Where is_subscribe = '1' ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return $row["count(phone_number)"];
+            }
+            else {
+                return "0";
+            }
+        }
+        else {
+            return "0";
+        }
+    }
+
+    public function getSearchSubscribeDetails($start,$end){
+        $sql    = "Select count(phone_number) from user Where is_subscribe = '1' and subscribed_date >= $start and subscribed_date <= $end ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return $row["count(phone_number)"];
+            }
+            else {
+                return "0";
+            }
+        }
+        else {
+            return "0";
+        }
+    }
+
+    public function getSearchUnSubscribeDetails($start,$end){
+        $sql    = "Select count(phone_number) from user Where is_subscribe = '0' and unsubscribed_date >= $start and unsubscribed_date <= $end  ";  //get the last value form the database
         $result = $this->con->query($sql);                          //get the result by executing the sql query
         if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
         {
@@ -992,8 +1035,27 @@ class access
         }
     }
 
+    public function checkSubscribedUser($phone){
+        $sql    = "Select * from user Where phone_number = '".$phone."' and  is_subscribe = 1 ";  //get the last value form the database
+        $result = $this->con->query($sql);                          //get the result by executing the sql query
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row = $result->fetch_array(MYSQLI_ASSOC);  //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                return true;
+            }
+            else {
+               return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 
-    public function encrypt_decrypt($action, $string) {
+
+    private function encrypt_decrypt($action, $string) {
         $output = false;
         $encrypt_method = "AES-256-CBC";
         $secret_key = 'jeevithan_secret_ley';
