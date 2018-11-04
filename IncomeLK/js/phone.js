@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+    $("#error").css("display","block")
     $("#request_code").click(function () {  
         console.log("Hello");
         var phoneNumber = $("#phone").val()
@@ -9,6 +11,7 @@ $(document).ready(function(){
             $("#phone").css("border-color","black")
             if (phoneNumber.length == 10 && $.isNumeric(phoneNumber) && (phoneNumber.substring(0,3) == "077" || phoneNumber.substring(0,3) == "076")){
                 $("#phone").css("border-color","black")
+                $("#loader").css("display","block")
                 getOTP()
             }
             else {
@@ -17,6 +20,11 @@ $(document).ready(function(){
         }
     })
 });
+
+$("#phone").keyup(function(event){
+    $("#error").text("")
+    $("#error").css("display","none")
+})
 
 
 function getOTP(){
@@ -33,10 +41,16 @@ function getOTP(){
             var result = jQuery.parseJSON(response)
             console.log(result)
             if (result["message"] == "success"){
+                $("#loader").css("display","none")
                 localStorage.setItem("phone",$("#phone").val())
+                $("#error").text("")
+                $("#error").css("display","none")
                 window.location.href = "otp.html";
             }else {
+                $("#loader").css("display","none")
                 console.log("No content availablle")
+                $("#error").text(result["details"])
+                $("#error").css("display","block")
             }
         },
         error: function() { 

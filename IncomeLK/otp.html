@@ -31,6 +31,7 @@
   <body style="height: 100vh;">
     
 
+    <div id="loader" style="display:none"></div>
 
     <section class="site-section" style="padding: 1em 0; position: fixed;bottom: 0;width: 100%; padding-bottom: 0ex">
       <div class="container" style="text-align: center;">
@@ -49,6 +50,8 @@
                     <div class="col-md-4" style="text-align:center; background-color: black; opacity: 0.9; border-radius: 5px;">
                         <div class="col-md-12 form-group">
                             <label for="name" style="color: white">Check your inbox for SMS PIN</label>
+                            <br/>
+                            <label style="color: red; opacity: 1; display: none;" id="error"></label>
                             <input type="phone" id="otp" class="form-control" style="color: black;border-color: black;border-radius: 5px;" placeholder="OTP Code">
                           </div>
 
@@ -81,7 +84,7 @@
    
     
     <!-- loader -->
-    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
+    <!-- <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div> -->
 
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/jquery-migrate-3.0.0.js"></script>

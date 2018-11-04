@@ -1,11 +1,31 @@
-$(document).ready(function(){
-
-    
-    getAllContentById()
-
-    
-
+$(document).ready(function(){    
+    checkUser()
 });
+
+function checkUser(){
+    console.log(localStorage.getItem("phone"));
+    
+    var ajaxurl = baseURL+"/check_user.php",
+    data =  {"phone": localStorage.getItem("phone")};
+    $.ajax({
+
+        url: ajaxurl,
+        data: data,
+        type: 'POST',
+        success: function(response) { 
+            //console.log(response);
+            var result = jQuery.parseJSON(response)
+            console.log(result)
+            if (result["message"] == "success"){
+                getAllContentById()
+            }else {
+                window.location.href = "index.html";
+            }
+        },
+        error: function() { 
+        },
+    });
+}
 
 function conentClicked(id){
     //console.log(id)

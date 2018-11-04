@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     $("#subscibe").click(function () {  
         console.log("Hello");
         var phoneNumber = $("#otp").val()
@@ -7,10 +8,16 @@ $(document).ready(function(){
         }
         else {
             $("#otp").css("border-color","black")
+            $("#loader").css("display","block")
             verfyOTP()
         }
     })
 });
+
+$("#otp").keyup(function(event){
+    $("#error").text("")
+    $("#error").css("display","none")
+})
 
 
 function verfyOTP(){
@@ -28,9 +35,15 @@ function verfyOTP(){
             console.log(result)
             if (result["message"] == "success"){
                 console.log("hello")
+                $("#loader").css("display","none")
+                $("#error").text("")
+                $("#error").css("display","none")
                 window.location.href = "content.html";
             }else {
+                $("#loader").css("display","none")
                 console.log("No content availablle")
+                $("#error").text(result["details"])
+                $("#error").css("display","block")
             }
         },
         error: function() { 

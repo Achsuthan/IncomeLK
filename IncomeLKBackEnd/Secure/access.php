@@ -736,7 +736,7 @@ class access
                 return 1;
             }
             else {
-                return 0;
+                return 2;
             }
         }
         else {
@@ -795,6 +795,12 @@ class access
                                             $returnArray["details"] = "Something went wrong please try again a bit";
                                             return $returnArray;
                                         }   
+                                    }
+                                    else if ($this->checkBalance($phone) == 1 ){
+                                        $returnArray = [];
+                                        $returnArray["message"] = "failed";
+                                        $returnArray["details"] = "Your balance is not enough";
+                                        return $returnArray;
                                     }
                                     else {
                                         $returnArray = [];
