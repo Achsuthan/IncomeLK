@@ -9,8 +9,8 @@ $(document).ready(function(){
 function conentClicked(id){
     //console.log(id)
     localStorage.setItem("content_id",id)
-    if (localStorage.getItem("userStatus") == true){
-
+    if (localStorage.getItem("phone") != ""){
+        window.location.href = "content.html";
     }
     else {
         window.location.href = "phone.html";

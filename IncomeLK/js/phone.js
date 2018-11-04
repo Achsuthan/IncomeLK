@@ -19,6 +19,10 @@ $(document).ready(function(){
             }
         }
     })
+
+    if (localStorage.getItem("phone") != ""){
+        window.location.href = "content.html";
+    }
 });
 
 $("#phone").keyup(function(event){

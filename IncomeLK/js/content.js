@@ -19,6 +19,7 @@ function checkUser(){
             if (result["message"] == "success"){
                 getAllContentById()
             }else {
+                localStorage.setItem("phone","")
                 window.location.href = "index.html";
             }
         },
