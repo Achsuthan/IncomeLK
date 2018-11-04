@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $("#phone_number").text("Check your "+ localStorage.getItem("phone") +" inbox for PIN")
+
     $("#subscibe").click(function () {  
         console.log("Hello");
         var phoneNumber = $("#otp").val()
@@ -21,9 +23,13 @@ $(document).ready(function(){
 $("#otp").keyup(function(event){
     $("#error").text("")
     $("#error").css("display","none")
+    $("#otp").css("border-color","black")
 })
 
 $("#get_code").click(function(){
+    $("#error").text("")
+    $("#otp").val("")
+    $("#error").css("display","none")
     getOTP()
 })
 
@@ -73,7 +79,8 @@ function getOTP(){
             var result = jQuery.parseJSON(response)
             console.log(result)
             if (result["message"] == "success"){
-                
+                $("#error").text(result["details"])
+                $("#error").css("display","block")
             }else {
             }
         },

@@ -27,6 +27,7 @@ $(document).ready(function(){
 
 $("#phone").keyup(function(event){
     $("#error").text("")
+    $("#phone").css("border-color","black")
     $("#error").css("display","none")
 })
 

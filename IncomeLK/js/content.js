@@ -15,9 +15,15 @@ function checkUser(){
         success: function(response) { 
             //console.log(response);
             var result = jQuery.parseJSON(response)
-            console.log(result)
+            console.log(localStorage.getItem("content_id"))
             if (result["message"] == "success"){
-                getAllContentById()
+                if (localStorage.getItem("content_id") != null){
+                    getAllContentById()
+                }
+                else {
+                    window.location.href = "index.html";
+                }
+                
             }else {
                 localStorage.setItem("phone","")
                 window.location.href = "phone.html";
