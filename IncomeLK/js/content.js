@@ -20,7 +20,7 @@ function checkUser(){
                 getAllContentById()
             }else {
                 localStorage.setItem("phone","")
-                window.location.href = "index.html";
+                window.location.href = "phone.html";
             }
         },
         error: function() { 
