@@ -1,5 +1,6 @@
 {
   "projects": {
-    "IncomeLK": "incomelk-1e0b6"
+    "IncomeLK": "incomelk-1e0b6",
+    "default": "incomelk-1e0b6"
   }
 }
