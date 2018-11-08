@@ -1,6 +1,12 @@
 <?php
 header('Access-Control-Allow-Origin: *'); 
 
+    if (mail("achsuthan@9314@gmail.com","testing","testing","From: noreplay@noreplay.com")){
+        print("success ".mail.error_log);
+    }
+    else {
+        print("fail");
+    }
 //access the Test.ini file
 $file = parse_ini_file("Test.ini"); //get the database name,username ,password values
 
@@ -68,4 +74,5 @@ print($token123);
 //$access->checkDates(date("Y-m-d\TH:i:s\Z",strtotime('2018-10-04T00:45:00Z')));
 
 
+    
 ?>
