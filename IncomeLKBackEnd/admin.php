@@ -16,9 +16,28 @@ else {
     $name = trim($file["dbname"]);
 
     require("Secure/access.php");
-    $access = new access($host, $user, $pass, $name);
+    //$access = new access($host, $user, $pass, $name);
 
-    $access->connect();
+    //$access->connect();
+    
+    $file = fopen("ideabiz.txt","r");
+    $val = "";
+    if (filesize("ideabiz.txt") > 0){
+        $val = fread($file,filesize("ideabiz.txt"));
+    }
+    else {
+        $val = fread($file,"1");
+    }
+    
+    fclose($file);
+
+    $myFile = "ideabiz.txt";
+    $fh = fopen($myFile, 'w') or die("can't open file");
+    
+    $new_val = "$val \n\n $ideabiz";
+    fwrite($fh, $new_val);
+    fclose($fh);
+
     echo $ideabiz;
 
    // $phone = substr($phone,1);
