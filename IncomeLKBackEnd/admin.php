@@ -1,13 +1,9 @@
 <?php
 header('Access-Control-Allow-Origin: *'); 
-if (empty($_POST["ideabiz"])) {
-    $output["message"] = "failed";
-    $output["content"] = "ideabiz field is empty";
-    echo json_encode($output);
-}
-else {
 
-    $ideabiz = $_POST["ideabiz"];
+    $inputJSON = file_get_contents('php://input');
+    $ideabiz = $inputJSON;//json_decode($inputJSON, TRUE);
+
     $file = parse_ini_file("Test.ini");
 
     $host = trim($file["dbhost"]);
@@ -40,18 +36,4 @@ else {
 
     echo $ideabiz;
 
-   // $phone = substr($phone,1);
-    //$result = $access->checkSubscribedUser("94$phone");
-    // if ($result == 1){
-    //     $returnArray = [];
-    //     $returnArray["message"] = "success";
-    //     $returnArray["details"] = "User Available";
-    //     echo json_encode($returnArray);
-    // }
-    // else {
-    //     $returnArray = [];
-    //     $returnArray["message"] = "failed";
-    //     $returnArray["details"] = "User Not Available";
-    //     echo json_encode($returnArray);
-    // }
-}
+?>
